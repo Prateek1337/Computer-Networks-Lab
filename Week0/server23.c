@@ -15,27 +15,36 @@ void error(const char *msg)
 }
 
 void chat(int newsockfd){
-    int n=0;
+    int n=0,k=0;
     char buffer[256];
     while(true){
+        k++;
+        printf("%d\n",k);
         bzero(buffer,256);
-         n = read(newsockfd,buffer,255);
+        n=0;
+         n = read(newsockfd,buffer,256);
          if (n < 0) error("ERROR reading from socket");
          // current date/time based on current system
        time_t now = time(0);
        // convert now to string form
-       char* dt = ctime(&now);
-         printf("From client:%s\n",buffer);
-         bzero(buffer, 256); 
-        n = 0; 
-        // copy server message in the buffer 
-        while ((buffer[n++] = getchar()) != '\n') 
-            ; 
+       char *dt= ctime(&now);
+         printf("From client:%s",buffer);
         // if msg contains "Exit" then server exit and chat ended. 
         if (strncmp("exit", buffer, 4) == 0) { 
             printf("Server Exit...\n"); 
             break; 
         } 
+        else if (strncmp("time", buffer, 4) == 0) { 
+            // printf("%s\n",dt);
+            strcpy(buffer, dt);
+        } 
+        else {
+            bzero(buffer, 256); 
+            n = 0; 
+            printf("Enter the message: "); 
+            while ((buffer[n++] = getchar()) != '\n');
+        }
+        // copy server message in the buffer 
         n=write(newsockfd, buffer, sizeof(buffer)); 
          if (n < 0) error("ERROR writing to socket");
      }

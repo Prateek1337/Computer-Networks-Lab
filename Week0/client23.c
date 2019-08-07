@@ -16,21 +16,27 @@ void error(const char *msg)
 void chat(int sockfd){
     printf("Connected to server!\n");
     char buffer[256];
-    int n=0;
+    int n=0,k=0;
     while(true){
+         k++;
+        printf("%d\n",k);
         bzero(buffer,256);
         printf("Enter the message: "); 
         n = 0; 
-        while ((buffer[n++] = getchar()) != '\n') 
+        while ((buffer[n++] = getchar()) != '\n');
+            // printf("%s\n",buffer);
         n = write(sockfd,buffer,strlen(buffer));
         if (n < 0) 
              error("ERROR writing to socket");
+         if ((strncmp(buffer, "exit", 4)) == 0) { 
+            printf("Client Exit...\n"); 
+            break; 
+        } 
         bzero(buffer,256);
-        n = read(sockfd,buffer,255);
+        n = read(sockfd,buffer,256);
         if (n < 0) 
              error("ERROR reading from socket");
         printf("From server:%s\n",buffer);
-
         if ((strncmp(buffer, "exit", 4)) == 0) { 
             printf("Client Exit...\n"); 
             break; 
