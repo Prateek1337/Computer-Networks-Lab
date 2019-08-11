@@ -17,6 +17,10 @@ void chat(int sockfd){
     printf("Connected to server!\n");
     char buffer[256];
     int n=0,k=0;
+    bzero(buffer,256);
+    n = read(sockfd,buffer,256);
+    if(n!=0)
+        printf("From server:%s\n",buffer);
     while(true){
          k++;
         printf("%d\n",k);
