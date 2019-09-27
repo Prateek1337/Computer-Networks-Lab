@@ -18,7 +18,7 @@ After removing line 71
     Configure and build ns-3.
     Execute command: ./waf shell
     Execute command: gdb build/scratch/star
-    Print the data type of variables: nSpokes and port using gdb
+    Print the data type of variables: nSpokes and port using ptype
 
 put breakpoint before those lines using and run  
 when the program stops then do ptype variable name
@@ -32,7 +32,7 @@ when the program stops then do ptype variable name
 
 The file "first.cc" is modified to support IPv6 , do 
     
-    ./waf --run "scratch/first V6"
+    ./waf --run "scratch/myfirst_with_V4ndV6 V6"
 
 ## Enable support of flow monitor in tcp-bulk-send.cc
 The files tcp-bulk-send.cc is the edited file which is monitered.  
@@ -41,8 +41,6 @@ You can visualize that file using netanim
 
 ## Compare the congestion window plots for TCP Newreno and TCP Highspeed
 follow this link--    
-
-https://codein.withgoogle.com/archive/2018/organization/5152211763986432/task/5911445548040192/
 
 the cwnd.png file is the congestion window plot of fifth.cc  using Newreno.
 
@@ -53,6 +51,7 @@ add these lines to switch to TcpHighSpeed
     cmd.AddValue ("transport_prot","Transport protocol to use: TcpHighSpeed, ", transport_prot);
 
 now follow the link
+https://codein.withgoogle.com/archive/2018/organization/5152211763986432/task/5911445548040192/
 
 
 
