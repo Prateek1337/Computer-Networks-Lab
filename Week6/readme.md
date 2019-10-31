@@ -50,7 +50,7 @@ A routing table contains the information necessary to forward a packet along the
 
         
         //ping ip address 
-udo ip netns exec red ping 127.0.0.1
+s       sudo ip netns exec red ping 127.0.0.1
 
 ## Ping a network namespace from another network namespace.
         
@@ -126,7 +126,7 @@ udo ip netns exec red ping 127.0.0.1
         
         // Assign interfaces within namespaces IP addresses
         sudo ip netns exec red ip address add 10.0.0.1/24 dev eth0
-        sudo ip netns exec blue ip address add 10.0.0.3/24 dev eth1
+        sudo ip netns exec blue ip address add 10.0.0.3/24 dev eth2
 
         
         // Create bridge using iproute package. Brctl is deprecated
@@ -214,6 +214,8 @@ packet has to take to reach it’s destination
         
         // Try ping now, it works
         sudo ip netns exec red ping 10.0.2.1
+
+
 
 
 
