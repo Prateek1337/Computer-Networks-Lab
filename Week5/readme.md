@@ -1,3 +1,6 @@
+# Network Namespaces
+
+
 ## Reading Material
 
 ### What is container:
@@ -52,7 +55,7 @@
 
         
         //ping ip address 
-s       sudo ip netns exec red ping 127.0.0.1
+        sudo ip netns exec red ping 127.0.0.1
 
 #### Move the physical NIC interface inside the network namespace.
 

@@ -50,7 +50,7 @@ A routing table contains the information necessary to forward a packet along the
 
         
         //ping ip address 
-s       sudo ip netns exec red ping 127.0.0.1
+        sudo ip netns exec red ping 127.0.0.1
 
 ## Ping a network namespace from another network namespace.
         
