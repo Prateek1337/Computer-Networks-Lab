@@ -1,6 +1,5 @@
 # Network Namespaces
 
-
 ## Reading Material
 
 ### What is container:
