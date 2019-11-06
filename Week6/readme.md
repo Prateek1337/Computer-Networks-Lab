@@ -6,17 +6,27 @@
 
 ### Hub:
 
-        A hub works on the physical layer (Layer 1) of OSI model.        A hub is the least expensive, least intelligent, and least complicated of the three. Its job is very simple: anything that comes in one port is sent out to the others. 
+        A hub works on the physical layer (Layer 1) of OSI model.
+        A hub is the least expensive, least intelligent, and least 
+        complicated of the three. 
+        Its job is very simple: anything that comes in one port is sent 
+        out to the others. 
 
 ### Switch:
 
-        Switch works on the data link layer (Layer 2)        Switches learn the location of the devices they are connected to almost instantaneously. The result is, most network traffic only goes where it needs to, rather than to every port. On busy networks, this can make the network significantly faster.
+        Switch works on the data link layer (Layer 2)Switches learn the location of the devices they are connected to almost instantaneously. 
+        The result is, most network traffic only goes where it needs to, rather than to every port. On busy networks, this can make the network significantly faster.
 
 ### Routers:
 
-        Router is working on a higher level of network layer (Layer 3)        A router operates as a switch for basic routing: it learns the location of the computers sending traffic, and routes information only to the necessary connections.        Consumer-grade routers perform (at minimum) two additional and important tasks: DHCP and NAT.        
-        DHCP — Dynamic Host Configuration Protocol — is how dynamic IP addresses are assigned        
-        NAT — Network Address Translation- – is the way the router translates the IP addresses of packets that cross the internet/local network boundary.
+        Router is working on a higher level of network layer (Layer 3) A router 
+        operates as a switch for basic routing: it learns the location of the computers 
+        sending traffic, and routes information only to the necessary connections.        Consumer-grade routers perform (at minimum) two additional and important 
+        tasks: DHCP and NAT.        
+        DHCP — Dynamic Host Configuration Protocol — is how dynamic IP addresses 
+        are assigned        
+        NAT — Network Address Translation- – is the way the router translates the 
+        IP addresses of packets that cross the internet/local network boundary.
 
 ## What is a Linux bridge?
 
@@ -24,12 +34,16 @@
 
 ##  What is Open vSwitch?
 
-        A virtual switch (vSwitch) is a software application that allows communication between virtual machines. A vSwitch does more than just forward data packets, it intelligently directs the communication on a network by checking data packets before moving them to a destination.        
-        Open vSwitch is a production quality, multilayer virtual switch
+        A virtual switch (vSwitch) is a software application that allows communication between virtual machines. 
+        A vSwitch does more than just forward data packets, it intelligently directs 
+        the communication on a network by checking data packets before moving them 
+        to a destination.        
+        Open vSwitch is a production quality, multilayer virtual switch.
 
 ##  What is a veth interface?
 
-        The veth devices are virtual Ethernet devices.  They can act as        tunnels between network namespaces to create a bridge to a physical        network device in another namespace
+        The veth devices are virtual Ethernet devices. 
+        They can act as tunnels between network namespaces to create a bridge to a physical network device in another namespace
 
 ## What is a route?
 
@@ -37,8 +51,9 @@
 
 ## What is a routing table?
 
-        A routing table contains the information necessary to forward a packet along the best path toward its destination. Each packet contains information about its origin and destination. When a packet is received, a network device examines the packet and matches it to the routing table entry providing the best match for its destination. The table then provides the device with instructions for sending the packet to the next hop on its route across the network.
-
+        A routing table contains the information necessary to forward a packet along the best path toward its destination. 
+        Each packet contains information about its origin and destination. When a packet is received, a network device examines the packet and matches it to the routing table entry providing the best match for its destination. 
+        The table then provides the device with instructions for sending the packet to the next hop on its route across the network.
 
 
 # Hands On
@@ -410,10 +425,10 @@
         //ping
         sudo ip netns exec red ping 10.0.0.3
 
-## two routers and 3 nodes attached to both of them l1,l2,l3 on left and r1,r2,r3 on right. ping l2 to r2. 
-## 100mbps bandwidth 5ms latency between access links 
-## 10mbps and 40ms for bottleneck
-## run 5 tcp streams  and measure the ping
+### two routers and 3 nodes attached to both of them l1,l2,l3 on left and r1,r2,r3 on right. ping l2 to r2. 
+### 100mbps bandwidth 5ms latency between access links 
+### 10mbps and 40ms for bottleneck
+### run 5 tcp streams  and measure the ping
 
         see namespaces.sh file
 
