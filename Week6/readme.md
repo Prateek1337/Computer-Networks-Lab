@@ -347,6 +347,84 @@
         sudo ip netns exec blue ping 10.0.0.1
         sudo ip netns exec red ping 10.0.6.1
 
+## Create a network by connecting 3 Linux bridges(each connected to a different network namespace) in a linear fashion (1--2--3).
+
+        //create namespaces
+        sudo ip netns add red
+        sudo ip netns add green
+        sudo ip netns add blue
+
+        //create veth pairs
+        sudo ip link add eth0 type veth peer name eth1
+        sudo ip link add eth2 type veth peer name eth3
+        sudo ip link add eth4 type veth peer name eth5
+        sudo ip link add eth6 type veth peer name eth7
+        sudo ip link add eth8 type veth peer name eth9
+
+        //set veth pairs
+        sudo ip link set eth0 netns red
+        sudo ip link set eth2 netns green
+        sudo ip link set eth4 netns blue
+        
+        // set loopback up
+        sudo ip netns exec red ip link set lo up
+        sudo ip netns exec green ip link set lo up
+        sudo ip netns exec blue ip link set lo up
+
+        //set interface within namespace up
+        sudo ip netns exec red ip link set eth0 up
+        sudo ip netns exec green ip link set eth2 up
+        sudo ip netns exec blue ip link set eth4 up
+
+        // add ip address
+        sudo ip netns exec red ip address add 10.0.0.1/24 dev eth0
+        sudo ip netns exec green ip address add 10.0.0.3/24 dev eth2
+        sudo ip netns exec blue ip address add 10.0.0.5/24 dev eth4
+
+        //add bridges
+        sudo ip link add name br0 type bridge
+        sudo ip link set dev br0 up
+        sudo ip link add name br1 type bridge
+        sudo ip link set dev br1 up
+        sudo ip link add name br2 type bridge
+        sudo ip link set dev br2 up
+
+        //set interface within bridges up
+        sudo ip link set eth1 master br0
+        sudo ip link set eth3 master br1
+        sudo ip link set eth5 master br2
+        sudo ip link set eth6 master br0
+        sudo ip link set eth7 master br1
+        sudo ip link set eth8 master br1
+        sudo ip link set eth9 master br2
+
+        //Bring bridge interfaces up
+        sudo ip link set dev eth1 up
+        sudo ip link set dev eth3 up
+        sudo ip link set dev eth5 up
+        sudo ip link set dev eth6 up
+        sudo ip link set dev eth7 up
+        sudo ip link set dev eth8 up
+        sudo ip link set dev eth9 up
+
+        //ping
+        sudo ip netns exec red ping 10.0.0.3
+
+## two routers and 3 nodes attached to both of them l1,l2,l3 on left and r1,r2,r3 on right. ping l2 to r2. 
+## 100mbps bandwidth 5ms latency between access links 
+## 10mbps and 40ms for bottleneck
+## run 5 tcp streams  and measure the ping
+
+        see namespaces.sh file
+
+
+
+
+       
+
+
+
+
 
 
 
