@@ -1,3 +1,14 @@
+## Question
+
+## two routers and 3 nodes attached to both of them l1,l2,l3 on left and r1,r2,r3 on right. ping l2 to r2. 
+## 100mbps bandwidth 5ms latency between access links 
+## 10mbps and 40ms for bottleneck
+## run 5 tcp streams  and measure the ping
+
+
+
+
+
 set -eE -o functrace
 
 failure() {
@@ -162,12 +173,49 @@ echo "Ip ip forwarding enable"
 
 # ping  2 packets
 
-sudo ip netns exec l1 ping 10.0.5.1 -c 2
-sudo ip netns exec l1 ping 10.0.6.1 -c 2 
-sudo ip netns exec l1 ping 10.0.7.1 -c 2
-sudo ip netns exec r1 ping 10.0.1.1 -c 2
-sudo ip netns exec r1 ping 10.0.2.1 -c 2
-sudo ip netns exec r1 ping 10.0.3.1 -c 2
-sudo ip netns exec l1 ping 10.0.2.1 -c 2
-sudo ip netns exec r1 ping 10.0.6.1 -c 2
+sudo ip netns exec l1 ping 10.0.5.1 -c 1
+sudo ip netns exec l1 ping 10.0.6.1 -c 1 
+sudo ip netns exec l1 ping 10.0.7.1 -c 1
+sudo ip netns exec r1 ping 10.0.1.1 -c 1
+sudo ip netns exec r1 ping 10.0.2.1 -c 1
+sudo ip netns exec r1 ping 10.0.3.1 -c 1
+sudo ip netns exec l1 ping 10.0.2.1 -c 1
+sudo ip netns exec r1 ping 10.0.6.1 -c 1
+
+# checking bandwidth
+echo open new terminal and execute iperf.sh wait time 30 seconds
+sleep 30s
+echo ==================================================original bandwidth====================================================
+sudo ip netns exec l1 iperf -c 10.0.5.1
+sudo ip netns exec l1 iperf -c 10.0.2.1
+
+#now changing the bandwidth
+echo ==================================================Changing bandwidth using TBF====================================================
+
+sudo ip netns exec l1 tc qdisc add dev l1b1 root tbf rate 1mbit burst 100mbit latency 4ms
+sudo ip netns exec l2 tc qdisc add dev l2b1 root tbf rate 1mbit burst 100mbit latency 4ms
+sudo ip netns exec l3 tc qdisc add dev l3b1 root tbf rate 1mbit burst 100mbit latency 4ms
+sudo ip netns exec b1 tc qdisc add dev b1l1 root tbf rate 1mbit burst 100mbit latency 4ms
+sudo ip netns exec b1 tc qdisc add dev b1l2 root tbf rate 1mbit burst 100mbit latency 4ms
+sudo ip netns exec b1 tc qdisc add dev b1l3 root tbf rate 1mbit burst 100mbit latency 4ms
+
+sudo ip netns exec r1 tc qdisc add dev r1b2 root tbf rate 1mbit burst 100mbit latency 4ms
+sudo ip netns exec r2 tc qdisc add dev r2b2 root tbf rate 1mbit burst 100mbit latency 4ms
+sudo ip netns exec r3 tc qdisc add dev r3b2 root tbf rate 1mbit burst 100mbit latency 4ms
+sudo ip netns exec b2 tc qdisc add dev b2r1 root tbf rate 1mbit burst 100mbit latency 4ms
+sudo ip netns exec b2 tc qdisc add dev b2r2 root tbf rate 1mbit burst 100mbit latency 4ms
+sudo ip netns exec b2 tc qdisc add dev b2r3 root tbf rate 1mbit burst 100mbit latency 4ms
+
+sudo ip netns exec b1 tc qdisc add dev b1b2 root tbf rate 1mbit burst 10mbit latency 40ms
+sudo ip netns exec b2 tc qdisc add dev b2b1 root tbf rate 1mbit burst 10mbit latency 40ms
+
+ #check change bandwidth
+echo ==================================================changed bandwidth====================================================
+sudo ip netns exec l1 iperf -c 10.0.5.1
+sudo ip netns exec l1 iperf -c 10.0.2.1
+
+#Running 5 tcp stream
+echo ==================================================TCP stream====================================================
+
+sudo ip netns exec l1 iperf -c 10.0.5.1 -i 1 -P 10
 
